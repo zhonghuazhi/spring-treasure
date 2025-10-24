@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: json-schema-validator
+
+# JSON Schema 校验配置
+validator:
+  # Schema文件路径配置（支持多种方式）
+  schema:
+    # 方式1：使用classpath路径（打包在jar包内）
+    # location: classpath:schemas/order-schema.json
+
+    # 方式2：使用外部文件路径（适用于Docker挂载）
+    location: /config/schemas/order-schema.json
+
+    # 方式3：如果外部文件不存在，则使用classpath作为fallback
+    fallback-location: classpath:schemas/order-schema.json
+
+    # 是否启用Schema缓存（提升性能）
+    cache-enabled: true
+
+    # Schema文件变更检测间隔（秒），0表示不检测
+    reload-interval: 60
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.example.validator: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+

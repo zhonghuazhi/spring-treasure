@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/order-schema.json",
+  "title": "订单信息校验Schema",
+  "description": "用于校验订单请求的JSON Schema配置",
+  "type": "object",
+  "required": ["title", "orderInfo"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "标题信息",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[\\u4e00-\\u9fa5a-zA-Z0-9\\s]+$"
+    },
+    "orderInfo": {
+      "type": "object",
+      "description": "订单详细信息",
+      "required": ["orderId", "cityName"],
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "订单ID",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "cityName": {
+          "type": "string",
+          "description": "城市名称",
+          "enum": ["北京", "上海", "广州", "深圳", "杭州", "成都", "西安", "武汉", "南京", "重庆"]
+        },
+        "amount": {
+          "type": "number",
+          "description": "订单金额",
+          "minimum": 0,
+          "maximum": 999999.99
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "订单数量",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "orderType": {
+          "type": "string",
+          "description": "订单类型",
+          "enum": ["NORMAL", "URGENT", "SPECIAL"]
+        },
+        "customerName": {
+          "type": "string",
+          "description": "客户姓名",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "phone": {
+          "type": "string",
+          "description": "联系电话",
+          "pattern": "^1[3-9]\\d{9}$"
+        },
+        "email": {
+          "type": "string",
+          "description": "邮箱地址",
+          "format": "email"
+        },
+        "address": {
+          "type": "object",
+          "description": "收货地址",
+          "properties": {
+            "province": {
+              "type": "string",
+              "description": "省份"
+            },
+            "city": {
+              "type": "string",
+              "description": "城市"
+            },
+            "detail": {
+              "type": "string",
+              "description": "详细地址",
+              "minLength": 5,
+              "maxLength": 200
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "订单标签",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0,
+          "maxItems": 10
+        },
+        "createTime": {
+          "type": "string",
+          "description": "创建时间",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "integer",
+          "description": "订单状态：1-待支付，2-已支付，3-已发货，4-已完成，5-已取消",
+          "enum": [1, 2, 3, 4, 5]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
